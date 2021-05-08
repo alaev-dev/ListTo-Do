@@ -8,8 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class MyController {
@@ -24,15 +24,7 @@ public class MyController {
 
         List<Docket> allDockets = docketDAO.getAllDockets();
 
-        for (Docket docket : allDockets) {
-            // NPE
-            if (docket.getTags().size() == 0) {
-                docket.setTags(new HashSet<>());
-            }
-
-        }
-
-        allDockets.forEach(ShortDateTimeDocket::new);
+        allDockets = allDockets.stream().map(ShortDateTimeDocket::new).collect(Collectors.toList());
 
         model.addAttribute("allDocket", allDockets);
 

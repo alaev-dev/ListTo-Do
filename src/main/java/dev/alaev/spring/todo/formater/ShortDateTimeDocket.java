@@ -5,27 +5,32 @@ import dev.alaev.spring.todo.entity.Docket;
 import java.time.format.DateTimeFormatter;
 
 public class ShortDateTimeDocket extends Docket {
-
-    private static final String DATE_FORMATTER = "yyyy-MM-dd HH:mm:ss";
-
-    public String timeSetup;
+    private static final String DATE_FORMATTER = "dd.MM.yyyy HH:mm";
+    private final        Docket docket;
 
     public ShortDateTimeDocket(Docket object) {
-        super(object.getId(),
-              object.getDescribeCase(),
-              object.getTimeSetup(),
-              object.getDeadline(),
-              object.getTimeEnd(),
-              object.getReminder());
+        super(object);
 
-        doPretty();
+        docket = object;
     }
 
-    public static String getDateFormatter() {
-        return DATE_FORMATTER;
+    @Override
+    public String getTimeSetup() {
+        return docket.getTimeSetupLDT().format(DateTimeFormatter.ofPattern(DATE_FORMATTER));
     }
 
-    public void doPretty() {
-        timeSetup = getTimeSetup().toLocalDateTime().format(DateTimeFormatter.ofPattern(DATE_FORMATTER));
+    @Override
+    public String getDeadline() {
+        return docket.getDeadline();
+    }
+
+    @Override
+    public String getTimeEnd() {
+        return docket.getTimeEnd();
+    }
+
+    @Override
+    public String getReminder() {
+        return docket.getReminder();
     }
 }
