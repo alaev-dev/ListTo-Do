@@ -87,4 +87,12 @@ public class Docket {
     public LocalDateTime getReminderLDT() {
         return reminder;
     }
+
+    public void setDescribeCase(String describeCase) {
+        this.describeCase = describeCase;
+    }
+
+    public void setTimeSetup(LocalDateTime timeSetup) {
+        this.timeSetup = timeSetup;
+    }
 }
