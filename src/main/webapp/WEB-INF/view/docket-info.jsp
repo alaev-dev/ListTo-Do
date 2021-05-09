@@ -7,9 +7,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Docket info</title>
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" type="text/css" href="resources/css/jquery.datetimepicker.min.css"/>
 </head>
 <body>
 <form:form action="saveDocket" modelAttribute="docketInput">
@@ -30,16 +28,25 @@
     <input type="submit" value="OK">
 </form:form>
 
-<script>
-    $(function () {
-        $.datepicker.setDefaults({
-            dateFormat: "dd.mm.yy",
-            onClose: function (date, inst) {
-                $("#selectedDateVal").html(date);
-            }
-        });
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="resources/js/jquery.datetimepicker.full.js"></script>
 
-        $("#datepicker").datepicker();
+<script>
+    $('#datepicker').datetimepicker({
+        norange: true, // use only one value
+        cells: [1, 1], // show only one month
+
+        resizeButton: false, // deny resize picker
+        fullsizeButton: false,
+        fullsizeOnDblClick: false,
+
+        timepicker: true, // use timepicker
+        timepickerOptions: {
+            hours: true,
+            minutes: true,
+            seconds: false,
+            ampm: true
+        }
     });
 </script>
 
