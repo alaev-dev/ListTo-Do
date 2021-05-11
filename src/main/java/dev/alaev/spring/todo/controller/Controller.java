@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
@@ -48,7 +49,7 @@ public class Controller {
     }
 
     private Map<String, String> getListOfTag() {
-        Set<Tag> allTag = service.getAllTags();
+        List<Tag> allTag = service.getAllTags();
 
         Map<String, String> listOfTag = new HashMap<>();
 
@@ -67,8 +68,8 @@ public class Controller {
             return "docket-info";
         }
 
-        Set<Tag> pickedTag = new HashSet<>();
-        Set<Tag> allTag    = service.getAllTags();
+        Set<Tag>  pickedTag = new HashSet<>();
+        List<Tag> allTag    = service.getAllTags();
 
         for (String pickedTagID : docketInput.getPickedTags()) {
             for (Tag tag : allTag) {
@@ -78,12 +79,46 @@ public class Controller {
             }
         }
 
-        service.saveDocket(new Docket(docketInput.getDescribeCase(),
+        service.saveDocket(new Docket(docketInput.getId(),
+                                      docketInput.getDescribeCase(),
                                       LocalDateTime.now(),
                                       docketInput.getDeadline().length() > 0
                                       ? LocalDateTime.parse(docketInput.getDeadline(), FORMATTER) : null,
                                       null,
                                       null, pickedTag));
+
+        return "redirect:/";
+    }
+
+    @RequestMapping("/updateInfo")
+    public String updateDocket(@RequestParam("docketId") long id, Model model) {
+
+        Docket docket = service.getDocket(id);
+
+        List<String> pickedTags = new ArrayList<>();
+
+        for (Tag tag : docket.getTags()) {
+            pickedTags.add(tag.getId().toString());
+        }
+
+
+        model.addAttribute("docketInput",
+                           new DocketInput(id,
+                                           docket.getDescribeCase(),
+                                           docket.getDeadlineLDT() == null
+                                           ? ""
+                                           : docket.getDeadlineLDT().format(FORMATTER),
+                                           "",
+                                           pickedTags));
+        model.addAttribute("listOfTag", getListOfTag());
+
+        return "docket-info";
+    }
+
+    @RequestMapping("/deleteInfo")
+    public String deleteDocket(@RequestParam("docketId") long id) {
+
+        service.deleteDocket(id);
 
         return "redirect:/";
     }

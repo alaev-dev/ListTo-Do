@@ -39,11 +39,13 @@ public class Docket {
 
     public Docket() {}
 
-    public Docket(String describeCase,
+    public Docket(long id,
+                  String describeCase,
                   LocalDateTime timeSetup,
                   LocalDateTime deadline,
                   LocalDateTime timeEnd,
                   LocalDateTime reminder, Set<Tag> tags) {
+        this.id = id;
         this.describeCase = describeCase;
         this.timeSetup = timeSetup;
         this.deadline = deadline;

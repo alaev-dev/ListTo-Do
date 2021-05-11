@@ -7,7 +7,6 @@ import dev.alaev.spring.todo.entity.Tag;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Set;
 
 @org.springframework.stereotype.Service
 public class ServiceImpl implements Service {
@@ -28,7 +27,7 @@ public class ServiceImpl implements Service {
 
     @Override
     @Transactional
-    public Set<Tag> getAllTags() {
+    public List<Tag> getAllTags() {
         return tagDAO.getAllTags();
     }
 
@@ -42,5 +41,17 @@ public class ServiceImpl implements Service {
     @Transactional
     public void saveDocket(Docket docket) {
         docketDAO.saveDocket(docket);
+    }
+
+    @Override
+    @Transactional
+    public Docket getDocket(long id) {
+        return docketDAO.getDocket(id);
+    }
+
+    @Override
+    @Transactional
+    public void deleteDocket(long id) {
+        docketDAO.deleteDocket(id);
     }
 }

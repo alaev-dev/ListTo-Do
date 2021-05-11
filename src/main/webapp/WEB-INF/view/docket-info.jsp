@@ -12,6 +12,8 @@
 <body>
 <form:form action="saveDocket" modelAttribute="docketInput">
 
+    <form:hidden path="id"/>
+
     <table>
         <tr>
             <th>To-do</th>

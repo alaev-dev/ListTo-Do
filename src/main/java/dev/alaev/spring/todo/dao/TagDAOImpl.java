@@ -4,8 +4,7 @@ import dev.alaev.spring.todo.entity.Tag;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 @Repository
 public class TagDAOImpl extends DAO implements TagDAO {
@@ -14,10 +13,10 @@ public class TagDAOImpl extends DAO implements TagDAO {
     }
 
     @Override
-    public Set<Tag> getAllTags() {
-        return new HashSet<>(getSessionFactory().getCurrentSession()
-                                                .createQuery("from Tag", Tag.class)
-                                                .getResultList());
+    public List<Tag> getAllTags() {
+        return getSessionFactory().getCurrentSession()
+                                  .createQuery("from Tag", Tag.class)
+                                  .getResultList();
     }
 
     @Override
