@@ -4,11 +4,13 @@ import dev.alaev.spring.todo.entity.Docket;
 
 import java.time.format.DateTimeFormatter;
 
-public class ShortDateTimeDocket extends Docket {
-    private static final String DATE_FORMATTER = "dd.MM.yyyy HH:mm";
+import static dev.alaev.spring.todo.controller.Controller.LOCALE;
+
+public class DateTimeDocketFormatter extends Docket {
+    private static final String DATE_FORMATTER = "EEE, dd MMMM yyyy HH:mm";
     private final        Docket docket;
 
-    public ShortDateTimeDocket(Docket object) {
+    public DateTimeDocketFormatter(Docket object) {
         super(object);
 
         docket = object;
@@ -16,12 +18,15 @@ public class ShortDateTimeDocket extends Docket {
 
     @Override
     public String getTimeSetup() {
-        return docket.getTimeSetupLDT().format(DateTimeFormatter.ofPattern(DATE_FORMATTER));
+        return docket.getTimeSetupLDT().format(DateTimeFormatter.ofPattern(DATE_FORMATTER, LOCALE));
     }
 
     @Override
     public String getDeadline() {
-        return docket.getDeadline();
+        if (deadline == null) {
+            return "";
+        }
+        return docket.getDeadlineLDT().format(DateTimeFormatter.ofPattern(DATE_FORMATTER, LOCALE));
     }
 
     @Override
