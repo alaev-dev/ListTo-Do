@@ -1,51 +1,60 @@
 package dev.alaev.spring.todo.entity;
 
-import javax.persistence.*;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "tag")
 public class Tag {
-    @Id
-    @Column(name = "tag_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @Column(name = "tag_id")
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @Column(name = "name")
-    private String name;
+  @Column(name = "name")
+  private String name;
 
-    @ManyToMany(mappedBy = "tags")
-    private Set<Docket> dockets = new HashSet<>();
+  @ManyToMany(mappedBy = "tags")
+  private Set<Docket> dockets = new HashSet<>();
 
-    public Tag() {}
+  public Tag() {}
 
-    public Tag(Long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (!(o instanceof Tag)) return false;
+    Tag tag = (Tag) o;
+    return getId().equals(tag.getId());
+  }
 
-    public Long getId() {
-        return id;
-    }
+  @Override
+  public int hashCode() {
+    return Objects.hash(getId());
+  }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public Set<Docket> getDockets() {
-        return dockets;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public void setDockets(Set<Docket> dockets) {
-        this.dockets = dockets;
-    }
+  public Set<Docket> getDockets() {
+    return dockets;
+  }
+
+  public void setDockets(Set<Docket> dockets) {
+    this.dockets = dockets;
+  }
 }

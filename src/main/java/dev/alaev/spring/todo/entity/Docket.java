@@ -1,110 +1,135 @@
 package dev.alaev.spring.todo.entity;
 
-import javax.persistence.*;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "docket")
 public class Docket {
+  @Column(name = "desc_case")
+  protected String describeCase;
 
-    @ManyToMany(cascade = {CascadeType.ALL})
-    @JoinTable(
-            name = "docket_tag",
-            joinColumns = {@JoinColumn(name = "docket_id")},
-            inverseJoinColumns = {@JoinColumn(name = "tag_id")}
-    )
-    private Set<Tag> tags = new HashSet<>();
+  @Column(name = "time_setup")
+  protected LocalDateTime timeSetup;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "docket_id")
-    private Long id;
+  @Column(name = "deadline")
+  protected LocalDateTime deadline;
 
-    @Column(name = "desc_case")
-    private String describeCase;
+  @Column(name = "time_end")
+  protected LocalDateTime timeEnd;
 
-    @Column(name = "time_setup")
-    private Timestamp timeSetup;
+  @Column(name = "reminder")
+  protected LocalDateTime reminder;
 
-    @Column(name = "deadline")
-    private Timestamp deadline;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "docket_id")
+  private Long id;
 
-    @Column(name = "time_end")
-    private Timestamp timeEnd;
+  @ManyToMany(
+      cascade = {CascadeType.ALL},
+      fetch = FetchType.EAGER)
+  @JoinTable(
+      name = "docket_tag",
+      joinColumns = {@JoinColumn(name = "docket_id")},
+      inverseJoinColumns = {@JoinColumn(name = "tag_id")})
+  private Set<Tag> tags = new HashSet<>();
 
-    @Column(name = "reminder")
-    private Timestamp reminder;
+  public Docket() {}
 
-    public Docket() {}
+  public Docket(
+      long id,
+      String describeCase,
+      LocalDateTime timeSetup,
+      LocalDateTime deadline,
+      LocalDateTime timeEnd,
+      LocalDateTime reminder,
+      Set<Tag> tags) {
+    this.id = id;
+    this.describeCase = describeCase;
+    this.timeSetup = timeSetup;
+    this.deadline = deadline;
+    this.timeEnd = timeEnd;
+    this.reminder = reminder;
+    this.tags = tags;
+  }
 
-    public Docket(Long id,
-                  String describeCase,
-                  Timestamp timeSetup,
-                  Timestamp deadline,
-                  Timestamp timeEnd, Timestamp reminder) {
-        this.id = id;
-        this.describeCase = describeCase;
-        this.timeSetup = timeSetup;
-        this.deadline = deadline;
-        this.timeEnd = timeEnd;
-        this.reminder = reminder;
-    }
+  public Docket(Docket obj) {
+    id = obj.id;
+    describeCase = obj.describeCase;
+    timeSetup = obj.timeSetup;
+    deadline = obj.deadline;
+    timeEnd = obj.timeEnd;
+    reminder = obj.reminder;
+    tags = obj.tags;
+  }
 
-    public Long getId() {
-        return id;
-    }
+  public Set<Tag> getTags() {
+    return tags;
+  }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public String getDescribeCase() {
-        return describeCase;
-    }
+  public String getDescribeCase() {
+    return describeCase;
+  }
 
-    public void setDescribeCase(String describeCase) {
-        this.describeCase = describeCase;
-    }
+  public void setDescribeCase(String describeCase) {
+    this.describeCase = describeCase;
+  }
 
-    public Timestamp getTimeSetup() {
-        return timeSetup;
-    }
+  public String getTimeSetup() {
+    return timeSetup.toString();
+  }
 
-    public void setTimeSetup(Timestamp timeSetup) {
-        this.timeSetup = timeSetup;
-    }
+  public void setTimeSetup(LocalDateTime timeSetup) {
+    this.timeSetup = timeSetup;
+  }
 
-    public Timestamp getDeadline() {
-        return deadline;
-    }
+  public String getDeadline() {
+    return deadline == null ? "" : deadline.toString();
+  }
 
-    public void setDeadline(Timestamp deadline) {
-        this.deadline = deadline;
-    }
+  public String getTimeEnd() {
+    return timeEnd == null ? "" : timeEnd.toString();
+  }
 
-    public Timestamp getTimeEnd() {
-        return timeEnd;
-    }
+  public String getReminder() {
+    return reminder == null ? "" : reminder.toString();
+  }
 
-    public void setTimeEnd(Timestamp timeEnd) {
-        this.timeEnd = timeEnd;
-    }
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (!(o instanceof Docket)) return false;
+    Docket docket = (Docket) o;
+    return getId().equals(docket.getId());
+  }
 
-    public Timestamp getReminder() {
-        return reminder;
-    }
+  @Override
+  public int hashCode() {
+    return Objects.hash(getId());
+  }
 
-    public void setReminder(Timestamp reminder) {
-        this.reminder = reminder;
-    }
+  // timeSetup is NOT NULL
+  public LocalDateTime getTimeSetupLDT() {
+    return timeSetup;
+  }
 
-    public Set<Tag> getTags() {
-        return tags;
-    }
+  public LocalDateTime getDeadlineLDT() {
+    return deadline;
+  }
 
-    public void setTags(Set<Tag> tags) {
-        this.tags = tags;
-    }
+  public LocalDateTime getTimeEndLDT() {
+    return timeEnd;
+  }
+
+  public LocalDateTime getReminderLDT() {
+    return reminder;
+  }
 }

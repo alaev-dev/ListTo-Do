@@ -1,10 +1,15 @@
-package dev.alaev.spring.todo.dao;
+package dev.alaev.spring.todo.service;
 
 import dev.alaev.spring.todo.entity.Docket;
+import dev.alaev.spring.todo.entity.Tag;
 import java.util.List;
 
-public interface DocketDAO {
+public interface Service {
   List<Docket> getAllDockets();
+
+  List<Tag> getAllTags();
+
+  void saveTag(Tag tag);
 
   void saveDocket(Docket docket);
 

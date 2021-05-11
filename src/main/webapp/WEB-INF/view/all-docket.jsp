@@ -15,9 +15,19 @@
         <th>Tags</th>
         <th>Setup time</th>
         <th>Deadline</th>
+        <th>Operations</th>
     </tr>
 
     <c:forEach var="docket" items="${allDocket}">
+
+        <c:url value="/updateInfo" var="updateButton">
+            <c:param name="docketId" value="${docket.id}"/>
+        </c:url>
+
+        <c:url value="/deleteInfo" var="deleteButton">
+            <c:param name="docketId" value="${docket.id}"/>
+        </c:url>
+
         <tr>
             <td>${docket.describeCase}</td>
             <td>
@@ -27,8 +37,17 @@
             </td>
             <td>${docket.timeSetup}</td>
             <td>${docket.deadline}</td>
+            <td>
+                <input type="button" value="Update" onclick="window.location.href = '${updateButton}'">
+                <input type="button" value="Delete" onclick="window.location.href = '${deleteButton}'">
+            </td>
         </tr>
     </c:forEach>
 </table>
+
+<br>
+
+<input type="button" value="Add" onclick="window.location.href = 'addNewDocket'">
+
 </body>
 </html>
